@@ -9,7 +9,6 @@ import 'package:watchapp/views/clock_view.dart';
 import 'package:watchapp/views/timer_page.dart';
 import 'package:watchapp/views/stop_watch_page.dart';
 
-
 class ClockPage extends StatefulWidget {
   @override
   _ClockPageState createState() => _ClockPageState();

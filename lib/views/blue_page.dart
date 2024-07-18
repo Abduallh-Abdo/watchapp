@@ -89,7 +89,6 @@ class BluetoothPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ClockCubit, ClockStates>(
       builder: (context, state) {
-        
         ClockCubit clockCubit = ClockCubit.get(context);
 
         return Scaffold(

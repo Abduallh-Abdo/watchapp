@@ -7,7 +7,6 @@ import 'package:watchapp/cubits/clock_states.dart';
 class TimerPage extends StatelessWidget {
   const TimerPage({Key? key}) : super(key: key);
 
-  // TimeOfDay? selectedTime;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ClockCubit, ClockStates>(
@@ -15,7 +14,8 @@ class TimerPage extends StatelessWidget {
         ClockCubit clockCubit = ClockCubit.get(context);
         double progress = clockCubit.durationTimer.inSeconds == 0
             ? 0
-            : clockCubit.remainingTimer.inSeconds / clockCubit.durationTimer.inSeconds;
+            : clockCubit.remainingTimer.inSeconds /
+                clockCubit.durationTimer.inSeconds;
         return Scaffold(
           backgroundColor: const Color(0xff2d2f41),
           body: SafeArea(
@@ -50,7 +50,7 @@ class TimerPage extends StatelessWidget {
                             progressColor: const Color(0xff748EF6),
                             circularStrokeCap: CircularStrokeCap.round,
                             animation: true,
-                            center:  clockCubit.selectedTime == null
+                            center: clockCubit.selectedTime == null
                                 ? const Text(
                                     "Select Time",
                                     style: TextStyle(
@@ -59,7 +59,7 @@ class TimerPage extends StatelessWidget {
                                     ),
                                   )
                                 : Text(
-                                    "${ clockCubit.remainingTimer.inHours.toString().padLeft(2, '0')}:${( clockCubit.remainingTimer.inMinutes % 60).toString().padLeft(2, '0')}:${( clockCubit.remainingTimer.inSeconds % 60).toString().padLeft(2, '0')}",
+                                    "${clockCubit.remainingTimer.inHours.toString().padLeft(2, '0')}:${(clockCubit.remainingTimer.inMinutes % 60).toString().padLeft(2, '0')}:${(clockCubit.remainingTimer.inSeconds % 60).toString().padLeft(2, '0')}",
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 30.0,
@@ -76,13 +76,15 @@ class TimerPage extends StatelessWidget {
                       Expanded(
                         child: RawMaterialButton(
                           onPressed: () {
-                            ( !clockCubit.startedTimer) ?  clockCubit.startTimer() :  clockCubit.stopTimer();
+                            (!clockCubit.startedTimer)
+                                ? clockCubit.startTimer()
+                                : clockCubit.stopTimer();
                           },
                           shape: const StadiumBorder(
                             side: BorderSide(color: Color(0xff748EF6)),
                           ),
                           child: Text(
-                            (! clockCubit.startedTimer) ? "Start" : "Pause",
+                            (!clockCubit.startedTimer) ? "Start" : "Pause",
                             style: const TextStyle(
                               color: Colors.white,
                             ),
@@ -95,7 +97,7 @@ class TimerPage extends StatelessWidget {
                       Expanded(
                         child: RawMaterialButton(
                           onPressed: () {
-                             clockCubit.resetTimer();
+                            clockCubit.resetTimer();
                           },
                           fillColor: const Color(0xff748EF6),
                           shape: const StadiumBorder(),
@@ -112,22 +114,24 @@ class TimerPage extends StatelessWidget {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Text(
-                     clockCubit.connectionStatus!,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.0,
-                    ),
-                  ),
-                  Text(
-                     clockCubit.isConnected
-                        ? 'Bluetooth Connected'
-                        : 'Bluetooth Disconnected',
-                    style: TextStyle(
-                      color:  clockCubit.isConnected ? Colors.green : Colors.red,
-                      fontSize: 14.0,
-                    ),
-                  ),
+                  clockCubit.blueDevice.isConnected == true
+                      ? Text(
+                          clockCubit.connectionStatus!,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.0,
+                          ),
+                        )
+                      : Text(''),
+                  // Text(
+                  //   clockCubit.isConnected
+                  //       ? 'Bluetooth Connected'
+                  //       : 'Bluetooth Disconnected',
+                  //   style: TextStyle(
+                  //     color: clockCubit.isConnected ? Colors.green : Colors.red,
+                  //     fontSize: 14.0,
+                  //   ),
+                  // ),
                 ],
               ),
             ),

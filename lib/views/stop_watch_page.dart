@@ -6,12 +6,11 @@ import 'package:watchapp/cubits/clock_states.dart';
 class StopWatchPage extends StatelessWidget {
   const StopWatchPage({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ClockCubit, ClockStates>(
       builder: (context, state) {
-       ClockCubit clockCubit = ClockCubit.get(context);
+        ClockCubit clockCubit = ClockCubit.get(context);
         return Scaffold(
           backgroundColor: const Color(0xff2d2f41),
           body: SafeArea(
@@ -39,13 +38,13 @@ class StopWatchPage extends StatelessWidget {
                       "${clockCubit.digitHours}:${clockCubit.digitMinutes}:${clockCubit.digitSeconds}",
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 82.0,
+                        fontSize: 60.0,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
                   Container(
-                    height: 350.0,
+                    height: 300.0,
                     decoration: BoxDecoration(
                       color: const Color(0xFF323F68),
                       borderRadius: BorderRadius.circular(8.0),
@@ -87,7 +86,9 @@ class StopWatchPage extends StatelessWidget {
                       Expanded(
                         child: RawMaterialButton(
                           onPressed: () {
-                            (!clockCubit.startedStopWatch) ? clockCubit.startStopWatch() : clockCubit.stopStopWatch();
+                            (!clockCubit.startedStopWatch)
+                                ? clockCubit.startStopWatch()
+                                : clockCubit.stopStopWatch();
                           },
                           shape: StadiumBorder(
                             side: BorderSide(color: const Color(0xff748EF6)),

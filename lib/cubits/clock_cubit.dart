@@ -27,17 +27,17 @@ class ClockCubit extends Cubit<ClockStates> {
   bool isDiscovering = false;
   bool isConnecting = false;
   String? connectionStatus;
-  String connectedDeviceName = '';
-  // late BlueDevice blueDevice ;
+  String connectedDeviceName = 'non';
   TextEditingController textController = TextEditingController();
   TimeOfDay? selectedTime;
   bool startedTimer = false;
   bool startedStopWatch = false;
-  Timer? timer;
-  Duration durationTimer = Duration();
-  Duration durationStopWatch = Duration();
-  Duration remainingTimer = Duration();
-  Duration remainingStopWatch = Duration();
+  Timer? timerTimer;
+  Timer? timerStopWatch;
+  Duration durationTimer = const Duration();
+  Duration durationStopWatch = const Duration();
+  Duration remainingTimer = const Duration();
+  Duration remainingStopWatch = const Duration();
   int seconds = 0, minutes = 0, hours = 0;
   String digitSeconds = "00", digitMinutes = "00", digitHours = "00";
 
@@ -147,7 +147,7 @@ class ClockCubit extends Cubit<ClockStates> {
   }
 
   void stopTimer() {
-    timer?.cancel();
+    timerTimer?.cancel();
 
     startedTimer = false;
     emit(StopButtonState());
@@ -162,7 +162,7 @@ class ClockCubit extends Cubit<ClockStates> {
   }
 
   void resetTimer() {
-    timer?.cancel();
+    timerTimer?.cancel();
 
     startedTimer = false;
     remainingTimer = durationTimer;
@@ -183,7 +183,7 @@ class ClockCubit extends Cubit<ClockStates> {
       startedTimer = true;
       emit(StartButtonState());
 
-      timer = Timer.periodic(
+      timerTimer = Timer.periodic(
         Duration(seconds: 1),
         (timer) {
           if (remainingTimer.inSeconds > 0) {
@@ -241,7 +241,7 @@ class ClockCubit extends Cubit<ClockStates> {
   }
 
   void stopStopWatch() {
-    timer?.cancel();
+    timerStopWatch?.cancel();
 
     startedStopWatch = false;
     emit(StopButtonState());
@@ -256,7 +256,7 @@ class ClockCubit extends Cubit<ClockStates> {
   }
 
   void resetStopWatch() {
-    timer?.cancel();
+    timerStopWatch?.cancel();
     
       seconds = 0;
       minutes = 0;
@@ -292,7 +292,7 @@ class ClockCubit extends Cubit<ClockStates> {
       startedStopWatch = true;
         emit(StartButtonState());
 
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timerStopWatch = Timer.periodic(Duration(seconds: 1), (timer) {
       int localSeconds = seconds + 1;
       int localMinutes = minutes;
       int localHours = hours;
