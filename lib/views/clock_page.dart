@@ -6,8 +6,6 @@ import 'package:watchapp/cubits/clock_cubit.dart';
 import 'package:watchapp/cubits/clock_states.dart';
 import 'package:watchapp/views/blue_page.dart';
 import 'package:watchapp/views/clock_view.dart';
-import 'package:watchapp/views/timer_page.dart';
-import 'package:watchapp/views/stop_watch_page.dart';
 
 class ClockPage extends StatefulWidget {
   @override
@@ -15,19 +13,6 @@ class ClockPage extends StatefulWidget {
 }
 
 class _ClockPageState extends State<ClockPage> {
-  int currentIndex = 0;
-  final List<Widget> pages = [
-    ClockPage(),
-    StopWatchPage(),
-    TimerPage(),
-  ];
-
-  void _onTabTapped(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var now = DateTime.now();
@@ -43,7 +28,7 @@ class _ClockPageState extends State<ClockPage> {
         return Scaffold(
           backgroundColor: const Color(0xff2d2f41),
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -67,15 +52,19 @@ class _ClockPageState extends State<ClockPage> {
                         style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                       trailing: Text(
                         clockCubit.blueDevice.connectionStatus,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            fontSize: 18),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: clockCubit.blueDevice.connectionStatus ==
+                                  'Connected'
+                              ? Colors.green
+                              : const Color(0xff748EF6),
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                   ),

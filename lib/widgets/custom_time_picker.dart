@@ -1,144 +1,141 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:numberpicker/numberpicker.dart';
+import 'package:watchapp/cubits/clock_cubit.dart';
+import 'package:watchapp/cubits/clock_states.dart';
 
-class CustomTimePicker extends StatefulWidget {
-  final TimeOfDay initialTime;
-
-  CustomTimePicker({required this.initialTime});
-
-  @override
-  _CustomTimePickerState createState() => _CustomTimePickerState();
-}
-
-class _CustomTimePickerState extends State<CustomTimePicker> {
-  late int selectedHour;
-  late int selectedMinute;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedHour = widget.initialTime.hour;
-    selectedMinute = widget.initialTime.minute;
-  }
+class CustomTimePicker extends StatelessWidget {
+  const CustomTimePicker({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: const Color(0xff2d2f41),
-      title: const Text(
-        'Select Time',
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return BlocBuilder<ClockCubit, ClockStates>(
+      builder: (context, state) {
+        ClockCubit clockCubit = ClockCubit.get(context);
+        return AlertDialog(
+          backgroundColor: const Color(0xFF323F68),
+          title: const Text(
+            'Select Time',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                child: DropdownButtonFormField<int>(
-                  value: selectedHour,
-                  dropdownColor: const Color(0xff2d2f41),
-                  decoration: const InputDecoration(
-                    filled: true,
-                    fillColor: Color(0xff2d2f41),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Hour',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        NumberPicker(
+                          value: clockCubit.selectedHourTimer,
+                          minValue: 0,
+                          maxValue: 23,
+                          infiniteLoop: true,
+                          zeroPad: true,
+                          selectedTextStyle: const TextStyle(
+                            fontSize: 30,
+                            color: Color(0xff748EF6),
+                          ),
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                          onChanged: (value) {
+                            clockCubit.upadateHourTimer(value);
+                          },
+                        ),
+                      ],
                     ),
                   ),
-                  items: List.generate(24, (index) {
-                    return DropdownMenuItem(
-                      value: index,
-                      child: Text(
-                        index.toString().padLeft(2, '0'),
-                        style: const TextStyle(
-                          color: Colors.white,
+                  const SizedBox(width: 8),
+                  const Text(
+                    ":",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Minute',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                    );
-                  }),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedHour = value!;
-                    });
-                  },
-                ),
+                        NumberPicker(
+                          value: clockCubit.selectedMinuteTimer,
+                          minValue: 0,
+                          maxValue: 59,
+                          infiniteLoop: true,
+                          zeroPad: true,
+                          selectedTextStyle: const TextStyle(
+                            fontSize: 30,
+                            color: Color(0xff748EF6),
+                          ),
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                          onChanged: (value) {
+                            clockCubit.upadateMinTimer(value);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-              const Text(
-                ":",
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(null);
+              },
+              child: const Text(
+                'Cancel',
                 style: TextStyle(
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: DropdownButtonFormField<int>(
-                  value: selectedMinute,
-                  dropdownColor: const Color(0xff2d2f41),
-                  decoration: const InputDecoration(
-                    filled: true,
-                    fillColor: Color(0xff2d2f41),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                  ),
-                  items: List.generate(60, (index) {
-                    return DropdownMenuItem(
-                      value: index,
-                      child: Text(
-                        index.toString().padLeft(2, '0'),
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    );
-                  }),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedMinute = value!;
-                    });
-                  },
+            ),
+            const SizedBox(
+              width: 50,
+            ),
+            TextButton(
+              onPressed: () {
+                TimeOfDay selectedTime = TimeOfDay(
+                    hour: clockCubit.selectedHourTimer,
+                    minute: clockCubit.selectedMinuteTimer);
+                print(
+                    'Selected time: ${selectedTime.format(context)}'); // Debug statement
+                Navigator.of(context).pop(selectedTime);
+              },
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.white,
                 ),
               ),
-            ],
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop(null);
-          },
-          child: const Text(
-            'Cancel',
-            style: TextStyle(
-              color: Colors.white,
             ),
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            TimeOfDay selectedTime =
-                TimeOfDay(hour: selectedHour, minute: selectedMinute);
-            print('Selected time: ${selectedTime.format(context)}'); // Debug statement
-            Navigator.of(context).pop(selectedTime);
-          },
-          child: const Text(
-            'OK',
-            style: TextStyle(
-              color: Colors.white,
+            const SizedBox(
+              width: 5,
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }

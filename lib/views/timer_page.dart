@@ -5,7 +5,7 @@ import 'package:watchapp/cubits/clock_cubit.dart';
 import 'package:watchapp/cubits/clock_states.dart';
 
 class TimerPage extends StatelessWidget {
-  const TimerPage({Key? key}) : super(key: key);
+  const TimerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -111,27 +111,18 @@ class TimerPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   clockCubit.blueDevice.isConnected == true
                       ? Text(
                           clockCubit.connectionStatus!,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14.0,
                           ),
                         )
-                      : Text(''),
-                  // Text(
-                  //   clockCubit.isConnected
-                  //       ? 'Bluetooth Connected'
-                  //       : 'Bluetooth Disconnected',
-                  //   style: TextStyle(
-                  //     color: clockCubit.isConnected ? Colors.green : Colors.red,
-                  //     fontSize: 14.0,
-                  //   ),
-                  // ),
+                      : const Text(''),
                 ],
               ),
             ),

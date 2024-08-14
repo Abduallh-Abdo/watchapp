@@ -7,7 +7,7 @@ class BlueDevice {
   // final BluetoothStateNotifier connectionProvider;
   BluetoothConnection? connection;
   String _deviceName = 'Unknown Device';
-  String _connectionStatus = 'Not Connected';
+  String _connectionStatus = 'No connnection';
   bool _isConnected = false;
 
   String get deviceName => _deviceName;
@@ -19,13 +19,11 @@ class BlueDevice {
       connection = await BluetoothConnection.toAddress(address);
       print('Connected to the device: $address');
       _isConnected = true;
-      
+
       sendTime();
-      
+
       return true;
-    
     } catch (exception) {
-      
       print('Cannot connect, exception occurred: $exception');
       _isConnected = false;
       return false;
@@ -68,6 +66,15 @@ class BlueDevice {
       print('No connection established to send data');
       onSent(false);
     }
+  }
+  void updateConnectionsStatus(bool status) {
+    _isConnected = status;
+  }
+  void updateDeviceName(String name) {
+    _deviceName = name;
+  }
+  void updateStatus(String status) {
+    _connectionStatus = status;
   }
 
   // void disconnect() {

@@ -4,7 +4,7 @@ import 'package:watchapp/cubits/clock_cubit.dart';
 import 'package:watchapp/cubits/clock_states.dart';
 
 class StopWatchPage extends StatelessWidget {
-  const StopWatchPage({Key? key}) : super(key: key);
+  const StopWatchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class StopWatchPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   Center(
@@ -59,14 +59,14 @@ class StopWatchPage extends StatelessWidget {
                             children: [
                               Text(
                                 "Lap ${index + 1}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.0,
                                 ),
                               ),
                               Text(
-                                "${clockCubit.laps[index]}",
-                                style: TextStyle(
+                                clockCubit.laps[index],
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.0,
                                 ),
@@ -77,7 +77,7 @@ class StopWatchPage extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   Row(
@@ -90,16 +90,16 @@ class StopWatchPage extends StatelessWidget {
                                 ? clockCubit.startStopWatch()
                                 : clockCubit.stopStopWatch();
                           },
-                          shape: StadiumBorder(
-                            side: BorderSide(color: const Color(0xff748EF6)),
+                          shape: const StadiumBorder(
+                            side: BorderSide(color: Color(0xff748EF6)),
                           ),
                           child: Text(
                             (!clockCubit.startedStopWatch) ? "Start" : "Pause",
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8.0,
                       ),
                       IconButton(
@@ -107,7 +107,8 @@ class StopWatchPage extends StatelessWidget {
                         onPressed: () {
                           clockCubit.addLapsStopWatch();
                         },
-                        icon: Icon(Icons.flag),
+                        icon: const Icon(
+                          Icons.flag),
                       ),
                       Expanded(
                         child: RawMaterialButton(
@@ -115,8 +116,8 @@ class StopWatchPage extends StatelessWidget {
                             clockCubit.resetStopWatch();
                           },
                           fillColor: const Color(0xff748EF6),
-                          shape: StadiumBorder(),
-                          child: Text(
+                          shape: const StadiumBorder(),
+                          child: const Text(
                             "Reset",
                             style: TextStyle(color: Colors.white),
                           ),

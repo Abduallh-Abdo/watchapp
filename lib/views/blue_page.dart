@@ -6,84 +6,9 @@ import 'package:watchapp/cubits/clock_cubit.dart';
 import 'package:watchapp/cubits/clock_states.dart';
 
 class BluetoothPage extends StatelessWidget {
-  // Future<void> checkPermissions() async {
-  //   Map<Permission, PermissionStatus> statuses = await [
-  //     Permission.location,
-  //     Permission.bluetooth,
-  //     Permission.bluetoothScan,
-  //     Permission.bluetoothConnect,
-  //   ].request();
-
-  //   bool allGranted = statuses.values.every((status) => status.isGranted);
-
-  //   if (allGranted) {
-  //     enableBluetooth();
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('Permissions are required to use Bluetooth')),
-  //     );
-  //   }
-  // }
-
-  // Future<void> enableBluetooth() async {
-  //   BluetoothState state = await FlutterBluetoothSerial.instance.state;
-  //   if (state == BluetoothState.STATE_OFF) {
-  //     await FlutterBluetoothSerial.instance.requestEnable();
-  //   }
-  //   startDiscovery();
-  // }
-
-  // void startDiscovery() {
-  //   setState(() {
-  //     isDiscovering = true;
-  //     devices = [];
-  //   });
-
-  //   FlutterBluetoothSerial.instance.startDiscovery().listen((result) {
-  //     setState(() {
-  //       devices.add(result);
-  //     });
-  //   }).onDone(() {
-  //     setState(() {
-  //       isDiscovering = false;
-  //     });
-  //   });
-  // }
-
-  // void connectToDevice(String name, String address) async {
-  //   setState(() {
-  //     isConnecting = true;
-  //     connectionStatus = 'Connecting to $name';
-  //   });
-
-  //   bool success = await clockCubit.blueDevice.connect(address);
-  //   final bluetoothState = context.read<BluetoothStateNotifier>();
-
-  //   setState(() {
-  //     isConnecting = false;
-  //     connectionStatus =
-  //         success ? 'Connected to $name' : 'Failed to connect to $name';
-  //     if (success) {
-  //       connectedDeviceName = name; // Update connectedDeviceName
-  //       bluetoothState.updateDeviceName(name);
-  //       bluetoothState.updateConnectionStatus('Connected');
-  //     } else {
-  //       connectedDeviceName = ''; // Reset connectedDeviceName
-  //       bluetoothState.updateConnectionStatus('Failed to connect');
-  //     }
-  //   });
-  // }
-
-  // void sendData(String data) {
-  //   clockCubit.blueDevice.sendData(data, (bool sent) {
-  //     setState(() {
-  //       connectionStatus =
-  //           sent ? 'Data sent successfully' : 'Failed to send data';
-  //     });
-  //   });
-  // }
-
   final TextEditingController textController = TextEditingController();
+
+  BluetoothPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +19,8 @@ class BluetoothPage extends StatelessWidget {
         return Scaffold(
           backgroundColor: const Color(0xff2d2f41),
           appBar: AppBar(
-            centerTitle: true,
+            automaticallyImplyLeading: false,
+            // centerTitle: true,
             backgroundColor: const Color(0xff2d2f41),
             title: const Text(
               'Bluetooth Devices',
